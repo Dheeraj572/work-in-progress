@@ -6,4 +6,5 @@ import com.project.util.UserResponse;
 public interface IUserService {
 
 	UserResponse registerUser(UserRequest userRequest);
+	Boolean validateUser(String userName, String password);
 }

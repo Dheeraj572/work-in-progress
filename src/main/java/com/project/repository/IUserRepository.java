@@ -7,4 +7,5 @@ import com.project.entity.User;
 public interface IUserRepository extends MongoRepository<User, Long>{
 
 	User findByUserNameOrEmailId(String userName, String emailId);
+	Boolean existsByUserNameAndPassword(String userName, String password);
 }

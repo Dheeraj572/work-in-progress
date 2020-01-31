@@ -38,4 +38,11 @@ public class UserService implements IUserService{
 		return userResponse;
 	}
 
+	@Override
+	public Boolean validateUser(String userName, String password) {
+		
+		return iUserRepository.existsByUserNameAndPassword(userName, passwordEncoder.encode(password));
+		
+	}
+
 }

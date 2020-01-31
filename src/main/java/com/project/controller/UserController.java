@@ -4,9 +4,13 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.project.exception.ErrorResponse;
 import com.project.service.IUserService;
@@ -19,6 +23,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("users")
+@CrossOrigin
 public class UserController {
 
 	@Autowired
@@ -33,5 +38,14 @@ public class UserController {
 		
 		UserResponse userResponse = iUserService.registerUser(userRequest);
 		return new ResponseEntity<>(userResponse,HttpStatus.CREATED);
+	}
+	
+	@ResponseStatus(code=HttpStatus.OK)
+	@ApiOperation(value="Validate user credentials")
+	@ApiResponses(value= {@ApiResponse(code=200,message="User Validated",response=Boolean.class)})
+	@GetMapping("validateUser")
+	public Boolean validateUser(@RequestParam(required=true) String userName, @RequestParam(required=true) String password) {
+		
+		return iUserService.validateUser(userName, password);
 	}
 }
