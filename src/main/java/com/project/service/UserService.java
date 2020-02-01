@@ -1,10 +1,14 @@
 package com.project.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.cache.CacheService;
 import com.project.entity.User;
 import com.project.exception.UserExistException;
 import com.project.repository.IUserRepository;
@@ -22,6 +26,9 @@ public class UserService implements IUserService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private CacheService cacheService;
 
 	@Override
 	public UserResponse registerUser(UserRequest userRequest) {
@@ -50,6 +57,14 @@ public class UserService implements IUserService {
 			return passwordEncoder.matches(password, user.getPassword());
 		}
 		return false;
+	}
+
+	@Override
+	public List<UserResponse> getAllUsers() {
+		
+		List<User> users = cacheService.getCachedUserList();
+		List<UserResponse> userResponseList = users.stream().map(mapper -> objectMapper.convertValue(mapper, UserResponse.class)).collect(Collectors.toList());
+		return userResponseList;
 	}
 
 }
