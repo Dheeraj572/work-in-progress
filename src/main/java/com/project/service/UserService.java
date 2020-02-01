@@ -12,25 +12,25 @@ import com.project.util.UserRequest;
 import com.project.util.UserResponse;
 
 @Service
-public class UserService implements IUserService{
+public class UserService implements IUserService {
 
 	@Autowired
 	private IUserRepository iUserRepository;
-	
+
 	@Autowired
 	private ObjectMapper objectMapper;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Override
 	public UserResponse registerUser(UserRequest userRequest) {
-		
+
 		User user = iUserRepository.findByUserNameOrEmailId(userRequest.getUserName(), userRequest.getEmailId());
-		if(user != null) {
+		if (user != null) {
 			throw new UserExistException("UserName/EmailId already exists");
 		}
-		
+
 		user = objectMapper.convertValue(userRequest, User.class);
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user = iUserRepository.save(user);
@@ -39,10 +39,17 @@ public class UserService implements IUserService{
 	}
 
 	@Override
-	public Boolean validateUser(String userName, String password) {
-		
-		return iUserRepository.existsByUserNameAndPassword(userName, passwordEncoder.encode(password));
-		
+	public Boolean validateUser(String userNameOrEmail, String password) {
+
+		User user = iUserRepository.findByUserName(userNameOrEmail);
+		if (user != null) {
+			return passwordEncoder.matches(password, user.getPassword());
+		}
+		user = iUserRepository.findByEmailId(userNameOrEmail);
+		if (user != null) {
+			return passwordEncoder.matches(password, user.getPassword());
+		}
+		return false;
 	}
 
 }

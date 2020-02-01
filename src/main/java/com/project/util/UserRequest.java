@@ -3,6 +3,9 @@ package com.project.util;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.project.constraintvalidators.ValidEmail;
+import com.project.constraintvalidators.ValidPassword;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,12 +24,12 @@ public class UserRequest {
 
 	@NotNull(message = "EmailId cannot be null")
 	@ApiModelProperty(position = 2)
-	@Pattern(regexp = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}",message="Invalid emailId")
+	@ValidEmail
 	private String emailId;
 
 	@NotNull(message = "Password cannot be null")
 	@ApiModelProperty(position = 3)
-	@Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^A-Za-z0-9])\\S{8,}$",message="Invalid password")
+	@ValidPassword
 	private String password;
 
 }
