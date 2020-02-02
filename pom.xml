@@ -101,10 +101,5 @@
 		</plugins>
 		<finalName>work-in-progress</finalName>
 	</build>
-	<repositories>
-		<repository>
-			<id>myMavenRepo.write</id>
-			<url>https://mymavenrepo.com/repo/fzRctZqPi5N4qUe1DO0e/</url>
-		</repository>
-	</repositories>
+	
 </project>
