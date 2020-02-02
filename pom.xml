@@ -97,10 +97,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>3.6.3</version>
 			</plugin>
 		</plugins>
 		<finalName>work-in-progress</finalName>
 	</build>
-	
+	 
+	    <repositories>
+        <repository>
+            <url>https://repo.maven.apache.org/maven2/</url>
+        </repository>
+        <repository>
+            <id>myMavenRepo.write</id>
+            <url>https://mymavenrepo.com/repo/fzRctZqPi5N4qUe1DO0e/</url>
+        </repository>
+    </repositories>
 </project>
