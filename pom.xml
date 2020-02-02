@@ -104,6 +104,7 @@
 	 
 	    <repositories>
         <repository>
+        <id>myMavenRepo.read</id>
             <url>https://repo.maven.apache.org/maven2/</url>
         </repository>
         <repository>
