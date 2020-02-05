@@ -29,6 +29,9 @@ public class UserService implements IUserService {
 	
 	@Autowired
 	private CacheService cacheService;
+	
+	/*@Autowired
+	private JavaMailSender javaMailSender;*/
 
 	@Override
 	public UserResponse registerUser(UserRequest userRequest) {
@@ -42,6 +45,8 @@ public class UserService implements IUserService {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user = iUserRepository.save(user);
 		UserResponse userResponse = objectMapper.convertValue(user, UserResponse.class);
+		
+		//sendEmail(generateSimpleMailMessage(userRequest.getEmailId()));
 		return userResponse;
 	}
 
@@ -66,5 +71,23 @@ public class UserService implements IUserService {
 		List<UserResponse> userResponseList = users.stream().map(mapper -> objectMapper.convertValue(mapper, UserResponse.class)).collect(Collectors.toList());
 		return userResponseList;
 	}
+/*
+ * To be used for sending an email after registration
+ * 
+	private SimpleMailMessage generateSimpleMailMessage(String userEmail) {
+		SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+		simpleMailMessage.setTo(userEmail);
+		simpleMailMessage.setSubject("User registered");
+		simpleMailMessage.setText("User registered");
+		return simpleMailMessage;
+		
+	}
+	
+	private void sendEmail(SimpleMailMessage simpleMailMessage) {
+		
+		javaMailSender.send(simpleMailMessage);
+	}
+	
+	*/
 
 }
